@@ -52,7 +52,7 @@ class Downloads {
      * @return bool
      */
     public function isThereDownloads() {
-        $query = new WP_Query('post_type', 'downloads');
+        $query = new WP_Query(array('post_type' => 'downloads'));
 
         if ($query->have_posts() === TRUE) {
             return TRUE;
@@ -77,13 +77,22 @@ class Downloads {
 
             <div class="col-sm-<?php echo $this->width; ?>">
                 <div class="downloads-img">
-
-                    <?php if (has_post_thumbnail()) : the_post_thumbnail(); endif; ?>
-
+                    <a href="<?php echo the_field('downloads_download'); ?>" download>
+                        <?php if (has_post_thumbnail()) {
+                            the_post_thumbnail();
+                        }
+                        else {
+                            ?>
+                                <img src="<?php echo get_stylesheet_directory_uri() . '/images/na.png'; ?>" style="width: 220px;" />
+                            <?php
+                        }
+                        ?>
+                    </a>
                 </div>
 
                 <div class="downloads-text">
 
+                    <h2><?php the_title(); ?></h2>
                     <?php if (has_excerpt()) : the_excerpt(); endif; ?>
 
                 </div>
