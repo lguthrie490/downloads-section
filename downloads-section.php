@@ -11,11 +11,11 @@ License: GPL2
 
 include 'Downloads.php';
 
-add_shortcode('Downloads', array($this, 'getDownloadsSection'));
+//add_shortcode('Downloads', array($this, 'getDownloadsSection'));
 
-register_activation_hook("wp_content/plugins/downloads-section.php", "downloadsInit");
+register_activation_hook(__FILE__, "downloadsInit");
 
-add_action('downloadsSection', 'getDownloadsSection');
+add_action('getDownloadsSection', 'getDownloadsSection');
 
 register_deactivation_hook("wp_content/plugins/downloads-section.php", "deleteDownloads");
 
@@ -50,8 +50,6 @@ function downloadsPostTypeInit() {
         'supports' => array(
             'title',
             'excerpt',
-            'trackbacks',
-            'revisions',
             'thumbnail',
             'page-attributes',
         )
@@ -59,6 +57,8 @@ function downloadsPostTypeInit() {
 
     register_post_type( 'downloads', $args );
 }
+
+add_action('init', 'downloadsPostTypeInit');
 
 /**
  * Deactivation method
